@@ -1,0 +1,330 @@
+# Auth
+    failed 
+    password 
+    throttle
+
+#bouton
+create
+
+register
+
+login
+
+name
+
+first_name
+
+user_name
+
+password
+
+forget_password
+
+email
+
+remember
+
+send
+
+next
+
+prev
+
+cancel
+
+follow
+
+save
+
+clear
+
+choose
+
+select
+
+search
+
+reset
+
+see
+
+access
+
+del
+
+copy
+
+paste
+
+dashboard
+
+menu_share
+
+share
+
+title
+
+picture
+
+ingredient
+
+step
+
+comment
+
+home
+
+recipe
+    
+back
+
+view
+
+contact
+
+confirm
+
+verify
+
+add 
+    
+print 
+
+profile 
+
+tips  
+
+favorite_recipe  
+
+personal_recipe  
+
+country  country,
+
+see_profil 
+
+change_profil 
+
+avatar
+
+admin
+
+user
+
+like
+
+fr
+
+en
+
+
+logout  
+
+
+#dashboard
+    number_recipe 
+
+    popular_recipe
+
+    recipe_category
+
+    recent_recipe
+
+    comment_number
+
+    featured_recipe
+
+    search 
+
+    sales_statistics
+
+    number_user 
+
+    average_rating 
+
+    recipes
+
+    recipe
+
+    moment
+
+    like 
+
+ #footer
+home
+
+recipe
+
+share
+
+profile
+
+Login
+
+Sing_up
+
+logout
+
+cgv  General 
+
+mention
+
+admin
+
+user
+
+share
+
+dashboard
+
+recipes
+
+
+#home
+   title_kim
+
+   welcome
+
+   home
+
+   recipe
+
+   dashboard
+
+   share_recipes
+
+   connexion
+
+   registre
+
+   name
+
+   first_name
+
+   email
+
+   password
+
+   confirm
+
+   forget
+
+   remember
+
+   profile,
+
+   chef_tips
+   
+
+   #pagination
+   previous
+   next
+
+
+   #password
+    reset 
+    sent
+    throttled 
+    token 
+    user 
+
+    #renseignement
+    name
+
+    first_name
+
+    user_name
+
+    email
+
+    password
+
+    culinary_interests
+
+    favorite recipe
+
+    personal recipes
+
+    rating_comment
+
+    country 
+
+    profile_picture
+
+    avatar
+
+    
+    user_account
+
+    admin_account
+
+
+
+#texte
+    welcome 
+
+    slogan 
+
+    home_1 
+
+    home_2 
+
+       home_2_a 
+
+       home_2_b 
+    
+    login
+
+    register 
+
+    search
+
+    create
+
+    cooking
+
+     admin_role 
+
+     admin_rôle_a
+
+     admin_role_b
+
+     admin_role_c 
+
+
+#sharing_recipe
+     form 
+
+     name 
+
+     eg_1
+
+     main_ingredient 
+
+     additional_ingredient 
+
+     eg_2 
+
+     cooking 
+
+     image 
+
+
+#account
+   user_name 
+
+   password 
+
+   email 
+
+   admin_id 
+
+   admin_name 
+
+   admin_role  
+
+
+like_comments
+
+like
+
+comment
