@@ -84,7 +84,6 @@ new Recette
                             Moi :
                             {!! $com->coms !!}
                                 <br>
-                                <a href="" class="right-0 text-red-500" style="text-align: right">Supprimer</a>
                             @else
                               {!! $com->coms !!}
                             @endif
