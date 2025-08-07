@@ -7,7 +7,7 @@
                 <div class="">
                     <input id="query" name="q" type="text" 
                            class=" w-full py-4 pl-12 pr-4 text-base rounded-full placeholder-gray-500 text-gray-900 shadow-xl focus:ring-green-500 focus:border-green-500 border-gray-300"
-                           placeholder="{{ __('texte.search') }}"
+                           placeholder="formule de recherche ex: piment , tomate (et non piment et tomate)"
                            required>
                 </div>
             </form>

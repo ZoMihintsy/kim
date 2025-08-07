@@ -16,7 +16,7 @@ class Recette extends Component
     public function mount()
     {
         $this->coms = Commentaire::get();
-        $this->recette = PartageRecette::orderBy('updated_at','desc')->get();
+        $this->recette = PartageRecette::orderBy('updated_at','desc')->with('ingredients')->get();
         $this->categorie = Categorie::get();
 
     }

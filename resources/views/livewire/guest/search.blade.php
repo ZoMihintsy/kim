@@ -9,38 +9,68 @@ new Search;
         <h2 class="text-4xl text-center borber-b text-blue-500 p-2">
             Resultat de votre recherche <q>{{$recherche}}</q>
         </h2>
-        <div>
-            @php 
-                $q = "/$recherche/i";
+        @php
+         $recherche = isset($recherche) ? $recherche : '';
+        $keywords = preg_split('/[\s,]+/', $recherche, -1, PREG_SPLIT_NO_EMPTY);
+    @endphp
+
+    <div class="flex flex-wrap gap-4">
+        @foreach($recette as $recettes)
+            @php
+                $ingredientsAsString = $recettes->ingredients->pluck('name')->implode(' ');
+                $searchableText = $recettes->nom . ' ' . $recettes->base . ' ' . $ingredientsAsString;
+                
+                $allKeywordsFound = true;
+                
+                foreach ($keywords as $keyword) {
+                    $pattern = '/' . preg_quote($keyword, '/') . '/i';
+                    if (!preg_match($pattern, $searchableText)) {
+                        $allKeywordsFound = false; 
+                        break; 
+                    }
+                }
             @endphp
-    <div class="flex gap-2">
-            @foreach($recette as $recettes)
-                @if(preg_match($q,$recettes->nom) || preg_match($q,$recettes->base) || preg_match($q,$recettes->ingredient) || preg_match($q,$recettes->nom.' '.$recettes->base) ||preg_match_all($q,$recettes->nom.' '.$recettes->ingredient))
-        <div class="shadow rounded p-2 transition w-100 h-100 justify-center overflow-auto bg-white">
-            <h3 class="border-b text-center text-3xl text-blue-500 p-2">
-                    {{$recettes->nom}}
-                </h3>
-                <h4 class="text-left left-0">
-                   <strong>Ingrédient de base :</strong> {{$recettes->base}}
-                </h4>
-                <div class=" overflow-hidden">
-                    <center>
-                    <img src="{{asset('storage/'.$recettes->photo)}}" style="width:10cm;height:10cm auto;cursor:pointer" class="rounded hover:scale-110 hover:w-50 transition" alt="" srcset="">
-                    </center>
-                </div>
-                <div style="text-align: left" class="overflow-hidden w-50 h-50">
-                    <strong>Ingrédient supplementaire </strong>: <br>
-                    {!! $recettes->ingredient !!}
-                </div>
-                <div style="text-align: left">
-                    <strong>Marche à suivre </strong>: <br>
-                    {!! substr($recettes->etape,0,50)  !!}@if(strlen($recettes->etape) > 50)... @endif 
-                </div>
-                <div class="bg-gray-500 p-2 rounded">
-                <button 
-                x-data=""
-                 x-on:click.prevent="$dispatch('open-modal','modal_{{$recettes->id}}')" style="cursor:pointer" class="bg-white p-2 rounded">Commenter @if($recettes->coms <= 0) @else {{$recettes->coms}} @endif</button>
-                <a href="{{route('recettes.jaime',['id'=>$recettes->id])}}" class="bg-indigo-50 rounded p-2 border-b hover:scale-110 transition " wire:navigate> J'aime @if($recettes->jaime <= 0) @else {{$recettes->jaime}} @endif</a>
+            
+            @if($allKeywordsFound)
+                <div class="shadow rounded p-4 w-full md:w-1/3 lg:w-1/4 transition bg-white">
+                    <h3 class="border-b text-center text-3xl text-blue-500 p-2">
+                        {!! preg_replace($pattern, '<span class="text-red-500 font-semibold underline">$0</span>', $recettes->nom) !!}
+                    </h3>
+                    <h4 class="text-left left-0">
+                        <strong>Ingrédient de base :</strong>
+                        {!! preg_replace($pattern, '<span class="text-red-500 font-semibold underline">$0</span>', $recettes->base) !!}
+                    </h4>
+                    <div class="overflow-hidden">
+                        <center>
+                            <img src="{{asset('storage/'.$recettes->photo)}}" style="width:10cm; height:10cm auto; cursor:pointer" class="rounded hover:scale-110 transition" alt="" srcset="">
+                        </center>
+                    </div>
+                    <div style="text-align: left" class="overflow-hidden">
+                        <strong>Ingrédients supplémentaires :</strong> <br>
+                        <ul>
+                            @foreach ($recettes->ingredients as $ingredient)
+                                <li>
+                                    {!! preg_replace($pattern, '<span class="text-red-500 font-semibold underline">$0</span>', $ingredient->name) !!}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div style="text-align: left">
+                        <strong>Marche à suivre :</strong> <br>
+                        {!! preg_replace($pattern, '<span class="text-red-500 font-semibold underline">$0</span>', substr($recettes->etape, 0, 50)) !!}
+                        @if(strlen($recettes->etape) > 50)... @endif
+                    </div>
+                    <div class="bg-gray-500 p-2 rounded flex justify-between mt-4">
+                        <button 
+                            x-data=""
+                            x-on:click.prevent="$dispatch('open-modal','modal_{{$recettes->id}}')" 
+                            style="cursor:pointer" 
+                            class="bg-white p-2 rounded">
+                            Commenter @if($recettes->coms > 0) {{ $recettes->coms }} @endif
+                        </button>
+                        <a href="{{route('recettes.jaime',['id'=>$recettes->id])}}" class="bg-indigo-50 rounded p-2 border-b hover:scale-110 transition" wire:navigate> 
+                            J'aime @if($recettes->jaime > 0) {{ $recettes->jaime }} @endif
+                        </a>
                 <x-modal name="modal_{{$recettes->id}}" :show="$errors->isNotEmpty()">
                     <h2 class="text-center border-b ">
                         Commentaire sur la recette  {{$recettes->nom}}
@@ -53,7 +83,11 @@ new Search;
                 </div>
                 <div style="text-align: left" class="overflow-hidden w-50 h-50">
                     <strong>Ingrédient supplementaire </strong>: <br>
-                    {!! $recettes->ingredient !!}
+                    <ul>
+                        @foreach ($recettes->ingredients as $ingredient)
+                            <li>{{ $ingredient->name }}</li>
+                        @endforeach
+                    </ul>
                 </div>
                 <div style="text-align: left">
                     <strong>Marche à suivre </strong>: <br>
@@ -70,7 +104,7 @@ new Search;
                             Moi :
                             {!! $com->coms !!}
                                 <br>
-                                <a href="" class="right-0 text-red-500" style="text-align: right">Supprimer</a>
+                                <a href="" class="right-0 text-red-500 font-semiboldxt-align: right">Supprimer</a>
                             @else
                               {!! $com->coms !!}
                             @endif

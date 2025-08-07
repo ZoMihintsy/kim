@@ -14,7 +14,8 @@ class Search extends Component
     public function mount()
     {
         $this->coms = Commentaire::get();
-        $this->recette = PartageRecette::get();
+        
+        $this->recette = PartageRecette::with('ingredients')->get();
     }
     public function render()
     {

@@ -11,11 +11,14 @@ class PartageRecette extends Model
     protected $fillable = [
         'nom',
         'base',
-        'ingredient',
         'etape',
         'photo',
         'user_id',
         'coms',
         'jaime',
     ];
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredient::class, 'recette_id');
+    }
 }

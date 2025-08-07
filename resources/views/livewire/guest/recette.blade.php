@@ -6,7 +6,7 @@ new Recette
 ?>
 <div>
 <select name="" id="cat" wire:model="cat" wire:input="liste" class="rounded">
-    <option value="">---Lister par ingredient---</option>
+    <option value="">---Lister par ingrédient de base---</option>
     @foreach($categorie as $_categorie)
         <option value="{{$_categorie->nom}}">{{$_categorie->nom}}</option>
     @endforeach
@@ -43,7 +43,11 @@ new Recette
                 </div>
                 <div style="text-align: left" class="overflow-hidden w-50 h-50">
                     <strong>Ingrédient supplementaire </strong>: <br>
-                    {!! $recettes->ingredient !!}
+                    <ul>
+                        @foreach ($recettes->ingredients as $ingredient)
+                            <li>{{ $ingredient->name }}</li>
+                        @endforeach
+                    </ul>
                 </div>
                 <div style="text-align: left">
                     <strong>Marche à suivre </strong>: <br>
@@ -67,7 +71,11 @@ new Recette
                 </div>
                 <div style="text-align: left" class="overflow-hidden w-50 h-50">
                     <strong>Ingrédient supplementaire </strong>: <br>
-                    {!! $recettes->ingredient !!}
+                    <ul>
+                        @foreach ($recettes->ingredients as $ingredient)
+                            <li>{{ $ingredient->name }}</li>
+                        @endforeach
+                    </ul>
                 </div>
                 <div style="text-align: left">
                     <strong>Marche à suivre </strong>: <br>
