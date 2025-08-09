@@ -9,15 +9,15 @@ class Ingredient extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'recette_id',
+        'name'
     ];
 
     /**
      * Un ingrédient appartient à une seule recette.
      */
-    public function recette()
+    public function recettes()
     {
-        return $this->belongsTo(PartageRecette::class, 'recette_id');
+        return $this->belongsToMany(PartageRecette::class, 'quantiters', 'ingredient_id', 'recette_id')
+                    ->withPivot('quantite');
     }
 }

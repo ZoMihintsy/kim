@@ -19,6 +19,8 @@ class PartageRecette extends Model
     ];
     public function ingredients()
     {
-        return $this->hasMany(Ingredient::class, 'recette_id');
+        return $this->belongsToMany(Ingredient::class, 'quantiters', 'recette_id', 'ingredient_id')
+                    ->withPivot('quantite');
     }
+    
 }

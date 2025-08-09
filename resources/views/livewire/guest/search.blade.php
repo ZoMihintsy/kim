@@ -47,13 +47,14 @@ new Search;
                     </div>
                     <div style="text-align: left" class="overflow-hidden">
                         <strong>Ingrédients supplémentaires :</strong> <br>
-                        <ul>
+                        
                             @foreach ($recettes->ingredients as $ingredient)
-                                <li>
-                                    {!! preg_replace($pattern, '<span class="text-red-500 font-semibold underline">$0</span>', $ingredient->name) !!}
-                                </li>
+                            <li>
+                                 {!! preg_replace($pattern, '<span class="text-red-500 underline">$0</span>', $ingredient->name)!!} &RightArrow;
+                                quantité : {!! preg_replace($pattern, '<span class="text-red-500 underline">$0</span>', $ingredient->pivot->quantite) !!}
+                            </li>
                             @endforeach
-                        </ul>
+                        
                     </div>
                     <div style="text-align: left">
                         <strong>Marche à suivre :</strong> <br>

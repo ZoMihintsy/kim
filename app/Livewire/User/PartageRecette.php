@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\Categorie;
+use App\Models\Ingredient;
 use App\Models\PartageRecette as ModelsPartageRecette;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -13,7 +14,7 @@ class PartageRecette extends Component
     use WithFileUploads;
     public $nom = "";
     public $base = "";
-    public $ingredients = [''];
+    public $ingredients = [['name' => '', 'quantite' => '']];
     public $etape = "";
     public $photo;
     public function saveRecette()
@@ -35,9 +36,10 @@ class PartageRecette extends Component
                 'user_id'=>Auth::user()->id
             ]);
             foreach ($this->ingredients as $ingredientName) {
-                $recette->ingredients()->create([
-                    'name' => $ingredientName,
-                ]);
+                if (!empty($ingredientName['name'])) {
+                    $ingredient = Ingredient::firstOrCreate(['name' => $ingredientName['name']]);
+                    $recette->ingredients()->attach($ingredient->id, ['quantite' => $ingredientName['quantite']]);
+                }
             }
         $cat = Categorie::where('nom',$this->base)->count();
         if($cat >= 1)
@@ -49,16 +51,18 @@ class PartageRecette extends Component
         ]);
         }
         $this->reset();
+        session()->flash('status','Recette partagé.');
     }
     public function addIngredientField()
     {
-        $this->ingredients[] = ''; // Ajoute une nouvelle chaîne vide au tableau
+        
+        $this->ingredients[] = ['name' => '', 'quantite' => ''];
     }
 
     public function removeIngredientField($index)
     {
-        unset($this->ingredients[$index]); // Supprime l'ingrédient à l'index donné
-        $this->ingredients = array_values($this->ingredients); // Ré-indexe le tableau pour éviter les problèmes
+        unset($this->ingredients[$index]);
+        $this->ingredients = array_values($this->ingredients);
     }
     public function render()
     {

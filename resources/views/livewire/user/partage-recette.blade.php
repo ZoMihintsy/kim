@@ -5,6 +5,8 @@ use App\Livewire\User\PartageRecette;
 new PartageRecette
 ?>
 <div>
+<x-auth-session-status class="mb-4" :status="session('status')" />
+
 <form wire:submit="saveRecette">
     <h1 class="border-b text-3xl text-blue-500 mb-4">
         Formulaire pour ajouter votre recette
@@ -17,23 +19,37 @@ new PartageRecette
     <x-text-input type="text" wire:model="base" class="w-full" id="base" placeholder="Ex: Oeuf" />
     <x-input-error :messages="$errors->get('base')" />
 
-    <x-input-label for="ingredients" :value="__('Les ingrédients supplémentaires')" />
-    <p class="text-sm text-gray-600 mb-2">Cliquez sur "Ajouter un ingrédient" pour ajouter plusieurs champs.</p>
-    
-    @foreach ($ingredients as $index => $ingredient)
-        <div class="flex items-center mb-2" wire:key="ingredient-{{ $index }}">
-            <x-text-input 
-                type="text" 
-                wire:model.lazy="ingredients.{{ $index }}" 
-                class="w-full" 
-                placeholder="Ex: Piment" 
-            />
-            <x-danger-button type="button" wire:click="removeIngredientField({{ $index }})" class="ml-2 px-3 py-2 bg-red-500 rounded-md hover:bg-red-600">
-                &times;
-            </x-danger-button>
-        </div>
-        <x-input-error :messages="$errors->get('ingredients.'.$index)" />
-    @endforeach
+<x-input-label for="ingredients" :value="__('Ingrédients et quantités')" />
+<p class="text-sm text-gray-600 mb-2">Ajoutez les ingrédients et leur quantité.</p>
+@php 
+    $i = 0;
+@endphp
+@foreach ($ingredients as $index => $ingredient)
+@php 
+    $i++;
+@endphp
+    <div class="flex items-center gap-2 mb-2" wire:key="ingredient-{{ $index }}">
+        <input 
+            type="text" 
+            wire:model.lazy="ingredients.{{ $index }}.name" 
+            class="w-1/2 border-gray-300 rounded-md shadow-sm"
+            placeholder="Nom de l'ingrédient" 
+        />
+        <input 
+            type="text" 
+            wire:model.lazy="ingredients.{{ $index }}.quantite" 
+            class="w-1/2 border-gray-300 rounded-md shadow-sm"
+            placeholder="Ex: 100g" 
+        />
+        @if($i >= 2)
+        <x-danger-button type="button" wire:click="removeIngredientField({{ $index }})" class="p-2 bg-red-500 bg-red-500 rounded-md hover:bg-red-600">
+            &times;
+        </x-danger-button>
+        @endif
+    </div>
+    <x-input-error :messages="$errors->get('ingredients.'.$index.'.name')" />
+    <x-input-error :messages="$errors->get('ingredients.'.$index.'.quantite')" />
+@endforeach
 
     <button type="button" wire:click="addIngredientField" class="mt-2 px-4 py-2 bg-blue-500 rounded-md hover:bg-blue-600">
         Ajouter un ingrédient

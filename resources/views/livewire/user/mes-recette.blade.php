@@ -103,7 +103,11 @@ new MesRecette
                 </div>
                 <div style="text-align: left" class="overflow-hidden w-50 h-50">
                     <strong>Ingrédient supplementaire </strong>: <br>
-                    {!! $recettes->ingredient !!}
+                    @foreach ($recettes->ingredients as $ingredient)
+                        <li>
+                             {{ $ingredient->name }} &RightArrow; quantité : {{ $ingredient->pivot->quantite }}
+                        </li>
+                    @endforeach
                 </div>
                 <div style="text-align: left">
                     <strong>Marche à suivre </strong>: <br>
@@ -141,7 +145,11 @@ new MesRecette
                 </div>
                 <div style="text-align: left" class="overflow-hidden w-50 h-50">
                     <strong>Ingrédient supplementaire </strong>: <br>
-                    {!! $_recettes->ingredient !!}
+                    @foreach ($_recettes->ingredients as $ingredient)
+                        <li>
+                             {{ $ingredient->name }} quantité : {{ $ingredient->pivot->quantite }}
+                        </li>
+                    @endforeach
                 </div>
                 <div style="text-align: left">
                     <strong>Marche à suivre </strong>: <br>

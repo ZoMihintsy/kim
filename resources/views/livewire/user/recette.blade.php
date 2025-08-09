@@ -40,11 +40,13 @@ new Recette
                 </div>
                 <div style="text-align: left" class="overflow-hidden w-50 h-50">
                     <strong>Ingrédient supplementaire </strong>: <br>
-                    <ul>
-                        @foreach ($recettes->ingredients as $ingredient)
-                            <li>{{ $ingredient->name }}</li>
-                        @endforeach
-                    </ul>
+                    
+                    @foreach ($recettes->ingredients as $ingredient)
+                        <li>
+                             {{ $ingredient->name }} quantité : {{ $ingredient->pivot->quantite }}
+                        </li>
+                    @endforeach
+                    
                 </div>
                 <div style="text-align: left">
                     <strong>Marche à suivre </strong>: <br>
